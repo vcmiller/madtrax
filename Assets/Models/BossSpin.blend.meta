@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 71114d1626b6ebe4dbec8f22ba8af75d
-timeCreated: 1517030113
+guid: e1c58d26654487d49973d730e67e601d
+timeCreated: 1517033232
 licenseType: Pro
 ModelImporter:
   serializedVersion: 22
@@ -76,7 +76,7 @@ ModelImporter:
     4300004: Slug
     4300006: Sword
     7400000: Default Take
-    7400002: SlugCharge
+    7400002: SlugSpin
     9500000: //RootNode
     13700000: Slug
   externalObjects: {}
@@ -107,10 +107,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: SlugCharge
-      takeName: SlugCharge
+      name: SlugSpin
+      takeName: SlugSpin
       firstFrame: -1
-      lastFrame: 71
+      lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
