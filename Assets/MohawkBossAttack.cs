@@ -10,13 +10,13 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     private Animator anim;
     private ExpirationTimer leapTimer;
     private ExpirationTimer chargeTimer;
+    private ExpirationTimer damageTimer;
 
     private bool isCharging;
     private bool isLeaping;
     private bool isTracking;
     private bool showWarn;
     private string curAttack;
-    private bool isDamaging;
 
     public GameObject sweepWarn;
     public GameObject chargeWarn;
@@ -40,6 +40,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
 
         leapTimer = new ExpirationTimer(leapTime);
         chargeTimer = new ExpirationTimer(chargeTime);
+        damageTimer = new ExpirationTimer(1);
     }
 
     public override void TakeInput() {
@@ -58,7 +59,6 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         }
 
         if (channels.doAttack != null) {
-            isDamaging = false;
             curAttack = channels.doAttack;
             anim.Play(channels.doAttack);
 
@@ -95,6 +95,14 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
             sweepWarn.transform.position = mhbImpl.transform.position + mhbImpl.transform.forward * chargeSpeed * leapTime;
             sweepWarn.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
         }
+
+        if (!damageTimer.expired) {
+            sweepCol.SetActive(true);
+            sweepCol.transform.position = sweepWarn.transform.position;
+            sweepCol.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y + 135 * damageTimer.remainingRatio);
+        } else {
+            sweepCol.SetActive(false);
+        }
     }
 
     private void ShowChargeWarn() {
@@ -107,6 +115,15 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
             chargeWarn.transform.localScale = new Vector3(1, chargeSpeed * chargeTime / 2 + 4, 1);
             chargeWarn.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
         }
+
+        if (!chargeTimer.expired) {
+            chargeCol.SetActive(true);
+            chargeCol.transform.position = chargeWarn.transform.position + chargeWarn.transform.up * (chargeSpeed * chargeTime + 4) * (1 - chargeTimer.remainingRatio);
+            chargeCol.transform.localScale = new Vector3(1, 2, 1);
+            chargeCol.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
+        } else {
+            chargeCol.SetActive(false);
+        }
     }
 
     private void ShowSpinWarn() {
@@ -114,17 +131,31 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
 
         spinWarn.transform.position = mhbImpl.transform.position;
         spinWarn.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
+
+        if (!damageTimer.expired) {
+            spinCol.SetActive(true);
+            spinCol.transform.position = spinWarn.transform.position;
+            spinCol.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y + 315 * (1 - damageTimer.remainingRatio));
+        } else {
+            spinCol.SetActive(false);
+        }
     }
 
     private void HideWarnings() {
         sweepWarn.SetActive(false);
         spinWarn.SetActive(false);
         chargeWarn.SetActive(false);
+
+        sweepCol.SetActive(false);
+        spinCol.SetActive(false);
+        chargeCol.SetActive(false);
+
         showWarn = false;
     }
 
-    public void SetDamaging(int isDamaging) {
-        this.isDamaging = isDamaging == 1;
+    public void SetDamaging(float duration) {
+        damageTimer.expiration = duration;
+        damageTimer.Set();
     }
 
     public void SetTracking(int isTracking) {
@@ -138,7 +169,6 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     public void SetCharging(int isCharging) {
         if (isCharging == 1) {
             chargeTimer.Set();
-            SetDamaging(1);
             SetTracking(0);
         } else {
             motor.velocity = Vector3.zero;
@@ -149,7 +179,6 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     public void SetLeaping(int isLeaping) {
         if (isLeaping == 1) {
             leapTimer.Set();
-            SetDamaging(1);
             SetTracking(0);
         } else {
             motor.velocity = Vector3.zero;
