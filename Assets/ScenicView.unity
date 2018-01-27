@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -140,7 +140,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.44, z: 2.75}
-  m_Children: []
+  m_Children:
+  - {fileID: 1318576611}
   m_Father: {fileID: 1533079548}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -252,8 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputSuffix: 
-  rightInput: 0
-  fwdInput: 0
 --- !u!1 &1217336171
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +279,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -344,11 +343,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1318576610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.693352, y: -1.63, z: 1.4798856}
-  m_LocalScale: {x: 1, y: 0.44, z: 2.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0.17}
+  m_LocalScale: {x: 0.4, y: 7.28, z: 0.16}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 258464911}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1318576612
 MeshRenderer:
@@ -418,6 +417,7 @@ GameObject:
   - component: {fileID: 1533079544}
   - component: {fileID: 1533079543}
   - component: {fileID: 1533079550}
+  - component: {fileID: 1533079551}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -457,8 +457,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   walkSpeed: 15
-  walkAcceleration: 15
-  maxSlope: 45
+  walkAcceleration: 45
+  maxSlope: 66.28
   maxStep: 0.2
   jumpSpeed: 4
   gravityScale: 1
@@ -559,8 +559,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aestheticTarget: {fileID: 258464911}
-  sphere: {fileID: 1318576611}
-  turnSpeed: 45
+  turnSpeed: 90
+  maxTilt: 45
+--- !u!114 &1533079551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533079542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3906a4a5e29ef274aa46d451f04277a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 114993726307617844, guid: 1bb35e52c7480594c897c021211de361,
+    type: 2}
+  shotInterval: 0.1
 --- !u!1 &2097650997
 GameObject:
   m_ObjectHideFlags: 0

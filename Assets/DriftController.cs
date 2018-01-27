@@ -6,8 +6,11 @@ using SBR;
 public class DriftController : PlayerController{
 
     public CharacterChannels character { get; private set; }
-    public float rightInput = 0;
-    public float fwdInput = 0;
+    public float rightInput  { get; private set; }
+    public float fwdInput  { get; private set; }
+
+    public float shootRightInput { get; private set; }
+    public float shootFwdInput { get; private set; }
 
     public override void Initialize(GameObject obj)
     {
@@ -17,24 +20,22 @@ public class DriftController : PlayerController{
     }
 
     public void Axis_Horizontal(float value)
-    {
-        Vector3 right = viewTarget.transform.right;
-        right.y = 0;
-        right = right.normalized;
-
+    { 
         rightInput = value;
-
-        character.movement += right * value;
     }
 
     public void Axis_Vertical(float value)
-    {
-        Vector3 fwd = viewTarget.transform.forward;
-        fwd.y = 0;
-        fwd = fwd.normalized;
-
+    { 
         fwdInput = value;
+    }
 
-        character.movement += fwd * value;
+    public void Axis_ShootHorizontal(float value)
+    {
+        shootRightInput = value;
+    }
+
+    public void Axis_ShootVertical(float value)
+    {
+        shootFwdInput = -value;
     }
 }
