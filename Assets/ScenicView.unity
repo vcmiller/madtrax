@@ -265,10 +265,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1533079548}
-  chaseSpeed: 0
-  beginAttackRadius: 0
-  giveUpChaseTime: 0
-  giveUpChaseTimeVariance: 0
+  chaseSpeed: 5
+  beginChargeRadius: 1
+  giveUpChaseTime:
+    baseValue: 5
+    variance: 2
+  shotsShotsTime:
+    baseValue: 15
+    variance: 5
+  chargesBeforeSweeping: 2
+  endAnimationFlag: 0
 --- !u!1 &638905284
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   defaultState: Chase
   states:
   - name: Chase
-    hasEnter: 0
+    hasEnter: 1
     hasDuring: 1
     hasExit: 0
     transitions:
@@ -28,8 +28,8 @@ MonoBehaviour:
       hasNotify: 0
     position: {x: 112, y: 256}
   - name: Leap
-    hasEnter: 0
-    hasDuring: 1
+    hasEnter: 1
+    hasDuring: 0
     hasExit: 0
     transitions:
     - to: Chase
@@ -37,23 +37,23 @@ MonoBehaviour:
     position: {x: 112, y: 416}
   - name: ShotsShotsShots
     hasEnter: 1
-    hasDuring: 1
+    hasDuring: 0
     hasExit: 0
     transitions:
     - to: Chase
       hasNotify: 0
     position: {x: 480, y: 112}
   - name: Charge
-    hasEnter: 0
-    hasDuring: 1
+    hasEnter: 1
+    hasDuring: 0
     hasExit: 0
     transitions:
     - to: Chase
       hasNotify: 0
     position: {x: 480, y: 256}
   - name: Sweep
-    hasEnter: 0
-    hasDuring: 1
+    hasEnter: 1
+    hasDuring: 0
     hasExit: 0
     transitions:
     - to: Chase

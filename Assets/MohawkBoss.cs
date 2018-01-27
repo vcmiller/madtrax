@@ -32,32 +32,32 @@ public abstract class MohawkBoss : SBR.StateMachine {
 
         State stateChase = new State();
         stateChase.id = StateID.Chase;
+        stateChase.enter = StateEnter_Chase;
         stateChase.during = State_Chase;
         stateChase.transitions = new Transition[4];
         states[0] = stateChase;
 
         State stateLeap = new State();
         stateLeap.id = StateID.Leap;
-        stateLeap.during = State_Leap;
+        stateLeap.enter = StateEnter_Leap;
         stateLeap.transitions = new Transition[1];
         states[1] = stateLeap;
 
         State stateShotsShotsShots = new State();
         stateShotsShotsShots.id = StateID.ShotsShotsShots;
         stateShotsShotsShots.enter = StateEnter_ShotsShotsShots;
-        stateShotsShotsShots.during = State_ShotsShotsShots;
         stateShotsShotsShots.transitions = new Transition[1];
         states[2] = stateShotsShotsShots;
 
         State stateCharge = new State();
         stateCharge.id = StateID.Charge;
-        stateCharge.during = State_Charge;
+        stateCharge.enter = StateEnter_Charge;
         stateCharge.transitions = new Transition[1];
         states[3] = stateCharge;
 
         State stateSweep = new State();
         stateSweep.id = StateID.Sweep;
-        stateSweep.during = State_Sweep;
+        stateSweep.enter = StateEnter_Sweep;
         stateSweep.transitions = new Transition[1];
         states[4] = stateSweep;
 
@@ -150,7 +150,7 @@ public abstract class MohawkBoss : SBR.StateMachine {
     }
 
     public override void Update() {
-        currentState.during();
+        CallIfSet(currentState.during);
 
         State cur = currentState;
 
@@ -181,12 +181,12 @@ public abstract class MohawkBoss : SBR.StateMachine {
         CallIfSet(target.enter);
     }
 
+    protected virtual void StateEnter_Chase() { }
     protected virtual void State_Chase() { }
-    protected virtual void State_Leap() { }
+    protected virtual void StateEnter_Leap() { }
     protected virtual void StateEnter_ShotsShotsShots() { }
-    protected virtual void State_ShotsShotsShots() { }
-    protected virtual void State_Charge() { }
-    protected virtual void State_Sweep() { }
+    protected virtual void StateEnter_Charge() { }
+    protected virtual void StateEnter_Sweep() { }
 
     protected virtual bool TransitionCond_Chase_Leap() { return false; }
     protected virtual bool TransitionCond_Chase_ShotsShotsShots() { return false; }
