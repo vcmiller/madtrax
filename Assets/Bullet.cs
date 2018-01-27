@@ -5,7 +5,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
     private Vector3 velocity;
-    public float bulletSpeed = 15;
     SBR.CooldownTimer cd;
 
     private void Start()
@@ -23,12 +22,16 @@ public class Bullet : MonoBehaviour {
     }
     public void Shoot(Vector3 velocity)
     {
-        this.velocity = velocity.normalized * bulletSpeed;
+        this.velocity = velocity;
         transform.rotation = Quaternion.LookRotation(Vector3.up, velocity);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //Destroy(gameObject);   
+        BossHealth bh;
+        if(bh = other.GetComponent<BossHealth>())
+        {
+            bh.Damage(1);
+        }
     }
 }
