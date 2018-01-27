@@ -33,7 +33,7 @@ namespace SBR {
             character.jump = true;
         }
 
-        public void BUttonUp_Jump() {
+        public void ButtonUp_Jump() {
             character.jump = false;
         }
 
