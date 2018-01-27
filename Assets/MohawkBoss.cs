@@ -85,6 +85,7 @@ public abstract class MohawkBoss : SBR.StateMachine {
         transitionChaseSweep.from = stateChase;
         transitionChaseSweep.to = stateSweep;
         transitionChaseSweep.cond = TransitionCond_Chase_Sweep;
+        transitionChaseSweep.notify = TransitionNotify_Chase_Sweep;
         stateChase.transitions[3] = transitionChaseSweep;
 
         Transition transitionLeapChase = new Transition();
@@ -192,6 +193,7 @@ public abstract class MohawkBoss : SBR.StateMachine {
     protected virtual bool TransitionCond_Chase_ShotsShotsShots() { return false; }
     protected virtual bool TransitionCond_Chase_Charge() { return false; }
     protected virtual bool TransitionCond_Chase_Sweep() { return false; }
+    protected virtual void TransitionNotify_Chase_Sweep() { }
     protected virtual bool TransitionCond_Leap_Chase() { return false; }
     protected virtual bool TransitionCond_ShotsShotsShots_Chase() { return false; }
     protected virtual bool TransitionCond_Charge_Chase() { return false; }

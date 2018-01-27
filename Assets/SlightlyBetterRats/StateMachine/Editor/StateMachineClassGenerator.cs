@@ -85,7 +85,7 @@ public abstract class {0} : {5} {{
     }}
 
     public override void Update() {{
-        currentState.during();
+        CallIfSet(currentState.during);
 
         State cur = currentState;
 

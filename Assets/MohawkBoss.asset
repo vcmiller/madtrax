@@ -25,7 +25,7 @@ MonoBehaviour:
     - to: Charge
       hasNotify: 0
     - to: Sweep
-      hasNotify: 0
+      hasNotify: 1
     position: {x: 112, y: 256}
   - name: Leap
     hasEnter: 1

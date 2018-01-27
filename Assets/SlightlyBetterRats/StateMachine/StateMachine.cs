@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBR {
     public abstract class StateMachine : Controller {
-        public int maxTransitionsPerUpdate { get; private set; }
+        public int maxTransitionsPerUpdate { get; set; }
 
         protected delegate void Notify();
         protected delegate bool Condition();

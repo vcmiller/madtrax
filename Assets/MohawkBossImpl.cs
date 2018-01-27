@@ -2,10 +2,13 @@ using UnityEngine;
 using SBR;
 
 public class MohawkBossImpl : MohawkBoss {
-    
+
     public Transform player;
     public float chaseSpeed;
     public float beginChargeRadius;
+    public float turnSpeed = 180;
+    public float trackSpeed = 360;
+    public float turnSpeedCharging = 90;
     public VariantFloat giveUpChaseTime;
     public VariantFloat shotsShotsTime;
     [HideInInspector]
@@ -13,61 +16,62 @@ public class MohawkBossImpl : MohawkBoss {
     CooldownTimer giveUpChase;
     CooldownTimer shotTimer;
 
+    private MohawkBossChannels bossChannels;
+
     public int chargesBeforeSweeping = 2;
     int consecutiveCharges = 0;
 
     public bool endAnimationFlag = false;
 
-    Vector3 towardsPlayer {
+    public Vector3 towardsPlayer {
         get {
-            return (player.position - transform.position);
+            Vector3 v = player.transform.position - transform.position;
+            v.y = 0;
+            return v;
         }
     }
 
-    protected override void OnControllerEnabled()
-    {
+    public void TurnTowardsPlayer(float speed) {
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(towardsPlayer, Vector3.up), speed * Time.deltaTime);
+    }
+
+    protected override void OnControllerEnabled() {
         base.OnControllerEnabled();
+        maxTransitionsPerUpdate = 1;
         shotTimer = new CooldownTimer(shotsShotsTime.Evaluate());
         animator = GetComponentInChildren<Animator>();
+        bossChannels = channels as MohawkBossChannels;
     }
 
-    void TriggerAnimation(string anim)
-    {
-        if (anim != "Charge" && anim != "Chase") { consecutiveCharges = 0; }
-        //Begin an animation in the appropriate state machine
-        print(anim);
-        animator.Play(anim);
+    void TriggerAnimation(string anim) {
+        bossChannels.doAttack = anim;
     }
 
-
-    protected override void StateEnter_Chase()
-    {
-        if (animator)
-        {
-            animator.Play("Crawl");
-        }   
+    protected override void StateEnter_Chase() {
+        if (bossChannels != null) bossChannels.doAttack = "Crawl";
         endAnimationFlag = false;
         giveUpChase = new CooldownTimer(giveUpChaseTime.Evaluate());
     }
     protected override void State_Chase() {
-        transform.Translate(Vector3.ProjectOnPlane(towardsPlayer.normalized * Mathf.Clamp(chaseSpeed, 0, towardsPlayer.magnitude) * Time.deltaTime, Vector3.up), Space.World);
-        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(towardsPlayer, Vector3.up), Vector3.up);
+        TurnTowardsPlayer(turnSpeed);
+        bossChannels.movement = transform.forward;
     }
     protected override void StateEnter_Leap() {
-        TriggerAnimation("Leap");
+        consecutiveCharges = 0;
+        bossChannels.doAttack = "Leap";
     }
     protected override void StateEnter_ShotsShotsShots() {
         shotTimer = new CooldownTimer(shotsShotsTime.Evaluate());
-        TriggerAnimation("ShotsShots");
+        consecutiveCharges = 0;
+        bossChannels.doAttack = "ShotsShots";
     }
-    protected override void StateEnter_Charge()
-    {
+    protected override void StateEnter_Charge() {
         consecutiveCharges++;
-        TriggerAnimation("Charge");
+        bossChannels.doAttack = "Charge";
     }
-    protected override void StateEnter_Sweep()
-    {
-        TriggerAnimation("Spin");
+    protected override void StateEnter_Sweep() {
+        consecutiveCharges = 0;
+        bossChannels.doAttack = "Spin";
     }
 
     protected override bool TransitionCond_Chase_Leap() { return giveUpChase.Use(); }
@@ -82,8 +86,10 @@ public class MohawkBossImpl : MohawkBoss {
     protected override bool TransitionCond_Charge_Chase() { return ResetAnimFlag(); }
     protected override bool TransitionCond_Sweep_Chase() { return ResetAnimFlag(); }
 
-    bool ResetAnimFlag()
-    {
+    protected override void TransitionNotify_Chase_Sweep() {
+    }
+
+    bool ResetAnimFlag() {
         return endAnimationFlag;
     }
 
