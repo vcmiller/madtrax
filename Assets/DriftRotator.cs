@@ -5,11 +5,13 @@ using SBR;
 
 public class DriftRotator : MonoBehaviour {
 
+    //The visible character
     public Transform aestheticTarget;
-    public Transform sphere;
-    public float turnSpeed = 15;
 
-    CharacterMotor motor;
+    public float turnSpeed = 15;
+    public float maxTilt = 80f;
+
+    public CharacterMotor motor { get; private set; }
     Brain brain;
 
     public DriftController drift
@@ -29,20 +31,26 @@ public class DriftRotator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        //Will is the direction your input WANTS you to go
         Vector3 will = drift.rightInput * Vector3.right + drift.fwdInput * Vector3.forward;
         will = Vector3.ClampMagnitude(will, 1);
 
-        float angle = Vector3.Cross(Quaternion.Euler(0, 45, 0) * will, aestheticTarget.forward).y;
+        //The angle between the will and the direction of the vehicle
+        float inputDisparityAngle = Vector3.Cross(Quaternion.Euler(0, 0, 0) * will, aestheticTarget.forward).y;
 
-        Quaternion targetRotation = (motor.velocity.magnitude > 0.01f) ? Quaternion.LookRotation(motor.velocity, Vector3.up) : aestheticTarget.rotation;
+        //The desired rotation in 2D
+        Quaternion targetRotation = (will.magnitude > 0.01f) ? Quaternion.LookRotation(will, Vector3.up) : aestheticTarget.rotation;
+
+        //X rotation determines wheelieing, pretty much
+        float newX = (Input.GetButton("Fire2")) ? -45f * (motor.velocity.magnitude / motor.walkSpeed) : 0;
+
+        //The desired rotation, now accounting for wheelies and tilt
+        targetRotation = Quaternion.Euler(newX, targetRotation.eulerAngles.y, (will.magnitude > 0 ? maxTilt * inputDisparityAngle : 0));
+
+        //Apply the rotation to the aesthetic target
         aestheticTarget.rotation = Quaternion.RotateTowards(aestheticTarget.rotation, targetRotation, turnSpeed * Time.deltaTime);
-        targetRotation *= Quaternion.Euler(Vector3.forward * 40 * angle);
-        aestheticTarget.rotation = Quaternion.RotateTowards(aestheticTarget.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
-
-        drift.character.movement += will.magnitude * aestheticTarget.forward;
-
-        print(Quaternion.Euler(0,45,0) * will +"::"+ aestheticTarget.forward);
-        //sphere.position = aestheticTarget.position + ;
+        //Move forwards, always, but the previous code can change the rotation
+        drift.character.movement += aestheticTarget.forward * will.magnitude ;
     }
 }
