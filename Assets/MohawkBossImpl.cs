@@ -8,6 +8,7 @@ public class MohawkBossImpl : MohawkBoss {
     public float beginChargeRadius;
     public VariantFloat giveUpChaseTime;
     public VariantFloat shotsShotsTime;
+    public Animator animator;
     CooldownTimer giveUpChase;
     CooldownTimer shotTimer;
 
@@ -32,9 +33,7 @@ public class MohawkBossImpl : MohawkBoss {
     {
         if (anim != "Charge" && anim != "Chase") { consecutiveCharges = 0; }
         //Begin an animation in the appropriate state machine
-        print(anim);
-
-        endAnimationFlag = true;
+        animator.Play(anim);
     }
 
 
