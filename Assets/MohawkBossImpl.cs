@@ -8,6 +8,7 @@ public class MohawkBossImpl : MohawkBoss {
     public float beginChargeRadius;
     public VariantFloat giveUpChaseTime;
     public VariantFloat shotsShotsTime;
+    [HideInInspector]
     public Animator animator;
     CooldownTimer giveUpChase;
     CooldownTimer shotTimer;
@@ -27,23 +28,29 @@ public class MohawkBossImpl : MohawkBoss {
     {
         base.OnControllerEnabled();
         shotTimer = new CooldownTimer(shotsShotsTime.Evaluate());
+        animator = GetComponentInChildren<Animator>();
     }
 
     void TriggerAnimation(string anim)
     {
         if (anim != "Charge" && anim != "Chase") { consecutiveCharges = 0; }
         //Begin an animation in the appropriate state machine
+        print(anim);
         animator.Play(anim);
     }
 
 
     protected override void StateEnter_Chase()
     {
-        print("chase");
+        if (animator)
+        {
+            animator.Play("Crawl");
+        }   
+        endAnimationFlag = false;
         giveUpChase = new CooldownTimer(giveUpChaseTime.Evaluate());
     }
     protected override void State_Chase() {
-        transform.Translate(towardsPlayer.normalized * Mathf.Clamp(chaseSpeed, 0, towardsPlayer.magnitude) * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.ProjectOnPlane(towardsPlayer.normalized * Mathf.Clamp(chaseSpeed, 0, towardsPlayer.magnitude) * Time.deltaTime, Vector3.up), Space.World);
         transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(towardsPlayer, Vector3.up), Vector3.up);
     }
     protected override void StateEnter_Leap() {
@@ -51,7 +58,7 @@ public class MohawkBossImpl : MohawkBoss {
     }
     protected override void StateEnter_ShotsShotsShots() {
         shotTimer = new CooldownTimer(shotsShotsTime.Evaluate());
-        TriggerAnimation("ShotsShotsShots");
+        TriggerAnimation("ShotsShots");
     }
     protected override void StateEnter_Charge()
     {
@@ -60,7 +67,7 @@ public class MohawkBossImpl : MohawkBoss {
     }
     protected override void StateEnter_Sweep()
     {
-        TriggerAnimation("Sweep");
+        TriggerAnimation("Spin");
     }
 
     protected override bool TransitionCond_Chase_Leap() { return giveUpChase.Use(); }
@@ -77,12 +84,7 @@ public class MohawkBossImpl : MohawkBoss {
 
     bool ResetAnimFlag()
     {
-        if (endAnimationFlag)
-        {
-            endAnimationFlag = false;
-            return true;
-        }
-        return false;
+        return endAnimationFlag;
     }
 
 }
