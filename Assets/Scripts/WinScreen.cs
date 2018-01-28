@@ -29,6 +29,7 @@ public class WinScreen : MonoBehaviour {
 		if (!target && !activated) {
             activated = true;
             StartCoroutine(FadeIn());
+            GetComponent<AudioSource>().Play();
         } else if (target) {
             activated = false;
         }

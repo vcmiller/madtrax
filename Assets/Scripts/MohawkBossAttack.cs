@@ -32,6 +32,8 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     public GameObject bulletPrefab;
     public Transform shootPoint;
 
+    public AudioClip attackSound;
+
     public float fireRate = 60;
     public float chargeSpeed;
     public float chargeTime;
@@ -168,6 +170,10 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     }
 
     public void SetDamaging(float duration) {
+        if (curAttack == "Spin") {
+            Util.PlayClipAtPoint(attackSound, transform.position, 1, 0, false, transform);
+        }
+
         damageTimer.expiration = duration;
         damageTimer.Set();
     }
@@ -197,6 +203,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     public void SetCharging(int isCharging) {
         if (isCharging == 1) {
             chargeTimer.Set();
+            Util.PlayClipAtPoint(attackSound, transform.position, 1, 0, false, transform);
         } else {
             motor.velocity = Vector3.zero;
         }
@@ -206,6 +213,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     public void SetLeaping(int isLeaping) {
         if (isLeaping == 1) {
             leapTimer.Set();
+            Util.PlayClipAtPoint(attackSound, transform.position, 1, 0, false, transform);
         } else {
             motor.velocity = Vector3.zero;
         }

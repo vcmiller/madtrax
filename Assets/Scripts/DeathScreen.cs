@@ -10,6 +10,8 @@ public class DeathScreen : MonoBehaviour {
     private bool activated;
     private Image text;
 
+    public AudioClip[] clips;
+
     public float fadeIn1 = 0.1f;
     public float duration = 1.0f;
     public float fadeOut = 0.5f;
@@ -26,6 +28,10 @@ public class DeathScreen : MonoBehaviour {
         if (target.health <= 0 && !activated) {
             activated = true;
             StartCoroutine(FadeIn());
+
+            var src = GetComponent<AudioSource>();
+            src.clip = clips[Random.Range(0, clips.Length)];
+            src.Play();
         }
     }
 

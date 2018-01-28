@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour {
     public GameObject impact;
     public float damage = 1;
     public bool destroyOnImpact = true;
+    public AudioClip hitSound;
 
     private void FixedUpdate()
     {
@@ -25,6 +26,9 @@ public class Bullet : MonoBehaviour {
         Health bh;
         if(bh = other.GetComponentInParent<Health>())
         {
+            if (hitSound) {
+                Util.PlayClipAtPoint(hitSound, transform.position, 1, 0);
+            }
             if (destroyOnImpact) {
                 Destroy(gameObject);
             }

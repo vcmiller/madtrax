@@ -7,7 +7,7 @@ public class EnemyWeapon : MonoBehaviour {
 
     public float damage;
     public float force;
-    
+
     private void OnTriggerEnter(Collider other) {
         Health bh;
 

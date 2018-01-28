@@ -16,6 +16,8 @@ public class BossTrigger : MonoBehaviour {
 
     public GameObject wall;
 
+    public AudioClip bossTrack;
+
     public Cinemachine.CinemachineTargetGroup group;
 
     private void OnTriggerEnter(Collider other) {
@@ -35,6 +37,10 @@ public class BossTrigger : MonoBehaviour {
 
             group.m_Targets[group.m_Targets.Length - 1] = t;
 
+            if (bossTrack) {
+                MusicPlayer.inst.ChangeTrack(bossTrack);
+            }
+
             if (wall) {
                 wall.SetActive(true);
             }
@@ -52,6 +58,9 @@ public class BossTrigger : MonoBehaviour {
                     Destroy(GameObject.Find("MapGeometry"));
                 }
             }
+
+            MusicPlayer.inst.ChangeToDefault();
+
             wall.SetActive(false);
         }
     }

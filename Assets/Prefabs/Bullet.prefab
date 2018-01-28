@@ -164,6 +164,7 @@ MonoBehaviour:
   impact: {fileID: 1410562215715670, guid: 61c9485dfd8cee34d9038ba775fc11d7, type: 2}
   damage: 3
   destroyOnImpact: 1
+  hitSound: {fileID: 8300000, guid: 7f6850e1147252141ace600171b808d6, type: 3}
 --- !u!136 &136285371498151248
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -1671,6 +1671,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1233476815916428, guid: a45c72d3989ebe74d81f4a892e1f8dc8,
     type: 2}
   shootPoint: {fileID: 4578964202615606}
+  attackSound: {fileID: 8300000, guid: 2c9f411ba7f17e94e86db47bc8970d44, type: 3}
   fireRate: 15
   chargeSpeed: 40
   chargeTime: 0.2

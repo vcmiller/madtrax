@@ -25,6 +25,8 @@ public class PlayerDamage : BasicMotor<FrancineChannels> {
     private ExpirationTimer flashTimer;
     private ExpirationTimer penaltyTimer;
 
+    public AudioSource damageSound;
+
     protected override void Start() {
         base.Start();
 
@@ -37,6 +39,8 @@ public class PlayerDamage : BasicMotor<FrancineChannels> {
         flashTimer.Set();
 
         if (dmg.amount < 100) {
+            damageSound.Play();
+
             penaltyTimer.Set();
             damaged = true;
 

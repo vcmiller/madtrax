@@ -8,6 +8,7 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
     //The visible character
     public Transform aestheticTarget;
     public Collider hitbox;
+    public AudioSource src;
 
     public float turnSpeed = 15;
     public float maxTilt = 80f;
@@ -75,6 +76,7 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
             dashExpTimer.Set();
             dashing = true;
             preDashVel = motor.velocity;
+            src.Play();
         }
 
         if (!dashExpTimer.expired) {

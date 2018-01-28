@@ -13,6 +13,8 @@ public class HotShots : BasicMotor<FrancineChannels> {
     public float gunTurnSpeed;      //The speed at which the gun can turn
     public float gunTurnPermission; //The angle the gun can rotate in either direction
 
+    public AudioSource src;
+
     public bool autoLockOn;
 
     public Transform aestheticTarget {
@@ -49,8 +51,14 @@ public class HotShots : BasicMotor<FrancineChannels> {
             if (shotTimer.Use()) {
                 Instantiate(bulletPrefab, gun.position + 3 * gun.up, Quaternion.identity).Shoot(gun.up * bulletSpeed);
             }
+
+            if (!src.isPlaying) {
+                src.Play();
+            }
         } else {
             newGunRotation = Quaternion.LookRotation(Vector3.up, aestheticTarget.forward);
+
+            src.Stop();
         }
 
 
