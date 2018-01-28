@@ -15,9 +15,14 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
     public float dashCooldown = 1;
     public float dashDist = 4;
     public float dashInvuln = 0.2f;
+    public float dashDuration = 0.06f;
+
+    private bool dashing;
+    private Vector3 preDashVel;
 
     private CooldownTimer dashTimer;
     private ExpirationTimer dashInvulnTimer;
+    private ExpirationTimer dashExpTimer;
 
     public CharacterMotor motor { get; private set; }
     Brain brain;
@@ -36,6 +41,7 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         motor = GetComponent<CharacterMotor>();
         dashTimer = new CooldownTimer(dashCooldown);
         dashInvulnTimer = new ExpirationTimer(dashInvuln);
+        dashExpTimer = new ExpirationTimer(dashDuration);
     }
 
     // Update is called once per frame
@@ -64,31 +70,19 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         }
 
         if (channels.dash && dashTimer.Use()) {
-            transform.position += Vector3.up * 0.2f;
-
-            var capsule = GetComponent<CapsuleCollider>();
-
-            Vector3 p1, p2;
-            float radius, height;
-
-            capsule.GetPoints(out p1, out p2, out radius, out height);
-
-            RaycastHit hit;
-
-            Vector3 off = aestheticTarget.forward * -0.5f;
-
-            p1 += capsule.transform.up * 0.05f;
-            p2 += capsule.transform.up * 0.05f;
-
-            if (Physics.CapsuleCast(p1 - off, p2 - off, radius, aestheticTarget.forward, out hit, dashDist + 1)) {
-                transform.position += aestheticTarget.forward * (hit.distance - 1);
-            } else {
-                transform.position += aestheticTarget.forward * dashDist;
-            }
-
             dashInvulnTimer.Set();
-            
+            dashExpTimer.Set();
+            dashing = true;
+            preDashVel = motor.velocity;
         }
+
+        if (!dashExpTimer.expired) {
+            motor.velocity = aestheticTarget.forward * dashDist / dashDuration;
+        } else if (dashing) {
+            dashing = false;
+            motor.velocity = preDashVel;
+        }
+
 
         hitbox.enabled = dashInvulnTimer.expired;
 

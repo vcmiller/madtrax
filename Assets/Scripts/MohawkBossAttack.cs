@@ -212,9 +212,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         if (isCharging == 1) {
             chargeTimer.Set();
             SetTracking(0);
-            Time.timeScale = 0.25f;
         } else {
-            Time.timeScale = 1.0f;
             motor.velocity = Vector3.zero;
         }
         this.isCharging = isCharging == 1;
