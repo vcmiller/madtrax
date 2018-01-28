@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bcef3777285f084194b6e241b3f34f9, type: 3}
+  m_Name: MohawkBossImpl
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  chaseSpeed: 5
+  beginChargeRadius: 5
+  turnSpeed: 120
+  trackSpeed: 360
+  turnSpeedCharging: 360
+  giveUpChaseTime:
+    baseValue: 3.18
+    variance: 2
+  shotsShotsTime:
+    baseValue: 15
+    variance: 5
+  animator: {fileID: 0}
+  chargesBeforeSweeping: 2
+  endAnimationFlag: 0
