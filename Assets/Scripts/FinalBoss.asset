@@ -38,7 +38,7 @@ MonoBehaviour:
       hasNotify: 0
     position: {x: 720, y: 224}
   - name: Charge
-    hasEnter: 0
+    hasEnter: 1
     hasDuring: 1
     hasExit: 0
     transitions:

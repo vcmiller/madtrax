@@ -50,6 +50,7 @@ public abstract class FinalBoss : SBR.StateMachine {
 
         State stateCharge = new State();
         stateCharge.id = StateID.Charge;
+        stateCharge.enter = StateEnter_Charge;
         stateCharge.during = State_Charge;
         stateCharge.transitions = new Transition[1];
         states[3] = stateCharge;
@@ -189,6 +190,7 @@ public abstract class FinalBoss : SBR.StateMachine {
     protected virtual void State_Rising() { }
     protected virtual void State_ThrowingBoats() { }
     protected virtual void StateExit_ThrowingBoats() { }
+    protected virtual void StateEnter_Charge() { }
     protected virtual void State_Charge() { }
     protected virtual void StateEnter_BoatSprout() { }
     protected virtual void State_Chasing() { }
