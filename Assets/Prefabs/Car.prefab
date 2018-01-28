@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impact: {fileID: 0}
+  damage: 5
   destroyOnImpact: 0
 --- !u!114 &114483384076891742
 MonoBehaviour:

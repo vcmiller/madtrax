@@ -47,3 +47,20 @@ MonoBehaviour:
     defaultVector: {x: 0, y: 0, z: 0}
     defaultRotation: {x: 0, y: 0, z: 0}
     objectType: 
+  - name: dash
+    type: 2
+    clears: 1
+    floatHasRange: 0
+    floatMin: 0
+    floatMax: 0
+    defaultFloat: 0
+    intHasRange: 0
+    intMin: 0
+    intMax: 0
+    defaultInt: 0
+    defaultBool: 0
+    vectorHasMax: 0
+    vectorMax: 0
+    defaultVector: {x: 0, y: 0, z: 0}
+    defaultRotation: {x: 0, y: 0, z: 0}
+    objectType: 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SBR;
 
 public class WinScreen : MonoBehaviour {
     public GameObject target;
@@ -68,5 +69,8 @@ public class WinScreen : MonoBehaviour {
 
         text.enabled = false;
         glow.enabled = false;
+
+        var h = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        h.Heal(h.maxHealth);
     }
 }

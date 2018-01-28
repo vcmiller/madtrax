@@ -16,6 +16,10 @@ namespace SBR {
             health = maxHealth;
         }
 
+        public void Heal(float amount) {
+            health = Mathf.Clamp(health + amount, 0, maxHealth);
+        }
+
         public virtual void ApplyDamage(Damage dmg) {
             if (enabled) {
                 health -= dmg.amount;

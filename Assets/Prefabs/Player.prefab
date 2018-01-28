@@ -554,6 +554,7 @@ MonoBehaviour:
   driftRotator: {fileID: 114524758690833324}
   maxRotationSpeed: 1080
   rotationAcceleration: 360
+  damage: 5
 --- !u!114 &114263081443931260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -586,6 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redFlashTime: 0.1
+  killY: -10
 --- !u!114 &114524758690833324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -611,7 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7560336690c93094d97b459fc78d488d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 30
   repeatZeroHealth: 0
 --- !u!114 &114593168540458760
 MonoBehaviour:

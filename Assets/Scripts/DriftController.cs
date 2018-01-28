@@ -36,4 +36,8 @@ public class DriftController : PlayerController {
 
         character.aim -= v * value;
     }
+
+    public void ButtonDown_Fire1() {
+        character.dash = true;
+    }
 }

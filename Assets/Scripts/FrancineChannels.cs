@@ -5,6 +5,7 @@ public class FrancineChannels : CharacterChannels {
     public FrancineChannels() {
         RegisterInputChannel("aim", new Vector3(0, 0, 0), true);
         RegisterInputChannel("movement2", new Vector3(0, 0, 0), true);
+        RegisterInputChannel("dash", false, true);
 
     }
     
@@ -26,6 +27,16 @@ public class FrancineChannels : CharacterChannels {
 
         set {
             SetVector("movement2", value);
+        }
+    }
+
+    public bool dash {
+        get {
+            return GetInput<bool>("dash");
+        }
+
+        set {
+            SetInput("dash", value);
         }
     }
 
