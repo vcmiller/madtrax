@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Name: MohawkBossImpl
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  chaseSpeed: 5
   beginChargeRadius: 5
   turnSpeed: 120
-  trackSpeed: 360
-  turnSpeedCharging: 360
+  trackSpeed: 270
+  aimDistSpeed: 100
   giveUpChaseTime:
     baseValue: 3.18
     variance: 2

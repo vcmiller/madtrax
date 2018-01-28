@@ -62,9 +62,22 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         }
     }
 
+    private Vector3 aimToPlayer {
+        get {
+            Vector3 aim;
+
+            if (PredictPosition(mhbImpl.player.GetComponent<CharacterMotor>(), mhbImpl.transform, chargeSpeed, out aim)) {
+                return aim;
+            } else {
+                return mhbImpl.towardsPlayer;
+            }
+        }
+    }
+
     public override void TakeInput() {
         if (isTracking) {
-            mhbImpl.TurnTowardsPlayer(mhbImpl.trackSpeed);
+            mhbImpl.transform.rotation = Quaternion.RotateTowards(mhbImpl.transform.rotation, Quaternion.LookRotation(aimToPlayer, Vector3.up), mhbImpl.trackSpeed * Time.deltaTime);
+            
         }
 
         if (showWarn) {
@@ -113,7 +126,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         sweepWarn.SetActive(true);
 
         if (isTracking) {
-            chargeSpeed = (mhbImpl.towardsPlayer.magnitude - 5) / leapTime;
+            chargeSpeed = Mathf.MoveTowards(chargeSpeed, (aimToPlayer.magnitude - 5) / leapTime, mhbImpl.aimDistSpeed * Time.deltaTime);
 
             sweepWarn.transform.position = mhbImpl.transform.position + mhbImpl.transform.forward * chargeSpeed * leapTime;
             sweepWarn.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
@@ -132,7 +145,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         chargeWarn.SetActive(true);
 
         if (isTracking) {
-            chargeSpeed = (mhbImpl.towardsPlayer.magnitude - 2) / chargeTime;
+            chargeSpeed = Mathf.MoveTowards(chargeSpeed, (aimToPlayer.magnitude - 2) / chargeTime, mhbImpl.aimDistSpeed * Time.deltaTime);
 
             chargeWarn.transform.position = mhbImpl.transform.position;
             chargeWarn.transform.localScale = new Vector3(1, chargeSpeed * chargeTime / 2 + 4, 1);
@@ -190,6 +203,7 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         this.isTracking = isTracking == 1;
 
         if (this.isTracking) {
+            chargeSpeed = 0;
             showWarn = true;
         }
     }
@@ -214,4 +228,33 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         this.isLeaping = isLeaping == 1;
     }
 
+    public static bool PredictPosition(CharacterMotor body, Transform reference, float projSpeed, out Vector3 aim) {
+        Vector3 pos = body.transform.position - reference.transform.position;
+        pos.y = 0;
+
+        Vector3 vel = body.velocity;
+
+        Vector3 posN = pos.normalized;
+        Vector3 velN = vel.normalized;
+
+        float a = (projSpeed * projSpeed) - vel.sqrMagnitude;
+        float b = 2 * pos.magnitude * vel.magnitude * Vector3.Dot(-posN, velN);
+        float c = -pos.sqrMagnitude;
+
+        float disc = b * b - 4 * a * c;
+
+        if (disc < 0) {
+            aim = Vector3.zero;
+            return false;
+        } else {
+            float root = Mathf.Sqrt(disc);
+
+            float time = (-b + root) / (2 * a);
+
+            aim = pos + vel * time;
+
+            return true;
+        }
+
+    }
 }

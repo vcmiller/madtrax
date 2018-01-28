@@ -60,6 +60,8 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         }
 
         if (channels.dash && dashTimer.Use()) {
+            transform.position += Vector3.up * 0.2f;
+
             var capsule = GetComponent<CapsuleCollider>();
 
             Vector3 p1, p2;
@@ -71,9 +73,9 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
 
             Vector3 off = aestheticTarget.forward * -0.5f;
 
-            p1 += capsule.transform.up * 0.2f;
-            p2 += capsule.transform.up * 0.2f;
-            
+            p1 += capsule.transform.up * 0.05f;
+            p2 += capsule.transform.up * 0.05f;
+
             if (Physics.CapsuleCast(p1 - off, p2 - off, radius, aestheticTarget.forward, out hit, dashDist + 1)) {
                 transform.position += aestheticTarget.forward * (hit.distance - 1);
             } else {

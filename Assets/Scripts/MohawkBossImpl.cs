@@ -4,11 +4,10 @@ using SBR;
 public class MohawkBossImpl : MohawkBoss {
 
     public Transform player;
-    public float chaseSpeed;
     public float beginChargeRadius;
     public float turnSpeed = 180;
     public float trackSpeed = 360;
-    public float turnSpeedCharging = 90;
+    public float aimDistSpeed = 5;
     public VariantFloat giveUpChaseTime;
     public VariantFloat shotsShotsTime;
     [HideInInspector]
