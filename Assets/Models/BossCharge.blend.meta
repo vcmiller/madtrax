@@ -94,7 +94,10 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: Event SetCharging has a time (2.002861) outside the clip's
+      valid range (0.000000..1.666667). It will never be firedEvent NotifyEndAnim
+      has a time (3.000000) outside the clip's valid range (0.000000..1.666667). It
+      will never be fired
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -130,21 +133,21 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
-        functionName: SetTracking
+      - time: 0.060402688
+        functionName: Track
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 1
+        floatParameter: 0.5
+        intParameter: 0
         messageOptions: 0
-      - time: 0.66762024
+      - time: 0.22466722
         functionName: SetCharging
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
-      - time: 1
+      - time: 0.55480987
         functionName: NotifyEndAnim
         data: 
         objectReferenceParameter: {instanceID: 0}
