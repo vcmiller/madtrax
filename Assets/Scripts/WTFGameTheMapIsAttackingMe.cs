@@ -11,7 +11,6 @@ public class WTFGameTheMapIsAttackingMe : MonoBehaviour {
     public float speed = 10;
 
     public float spawnDelay1 = 1.0f;
-    public float spawnDelay2 = 0.33f;
     public float disableDelay = 1;
 
     private CooldownTimer timer;
@@ -27,9 +26,7 @@ public class WTFGameTheMapIsAttackingMe : MonoBehaviour {
             EnableMeshes();
 
             Invoke("SpawnCars", spawnDelay1);
-            Invoke("SpawnCars", spawnDelay1 + spawnDelay2);
-            Invoke("SpawnCars", spawnDelay1 + spawnDelay2 * 2);
-            Invoke("DisableMeshes", spawnDelay1 + spawnDelay2 * 2 + disableDelay);
+            Invoke("DisableMeshes", spawnDelay1 + disableDelay);
         }
     }
 

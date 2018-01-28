@@ -20,12 +20,12 @@ MonoBehaviour:
     transitions:
     - to: Leap
       hasNotify: 0
-    - to: ShotsShotsShots
-      hasNotify: 0
     - to: Charge
       hasNotify: 0
     - to: Sweep
       hasNotify: 1
+    - to: AimTowardsPlayer
+      hasNotify: 0
     position: {x: 112, y: 256}
   - name: Leap
     hasEnter: 1
@@ -42,7 +42,7 @@ MonoBehaviour:
     transitions:
     - to: Chase
       hasNotify: 0
-    position: {x: 480, y: 112}
+    position: {x: 480, y: 48}
   - name: Charge
     hasEnter: 1
     hasDuring: 0
@@ -59,4 +59,12 @@ MonoBehaviour:
     - to: Chase
       hasNotify: 0
     position: {x: 480, y: 400}
+  - name: AimTowardsPlayer
+    hasEnter: 0
+    hasDuring: 1
+    hasExit: 0
+    transitions:
+    - to: ShotsShotsShots
+      hasNotify: 0
+    position: {x: 112, y: 48}
   baseClass: SBR.StateMachine

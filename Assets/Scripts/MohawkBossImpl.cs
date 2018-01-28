@@ -74,8 +74,12 @@ public class MohawkBossImpl : MohawkBoss {
         bossChannels.doAttack = "Spin";
     }
 
+    protected override void State_AimTowardsPlayer() {
+        State_Chase();
+    }
+
     protected override bool TransitionCond_Chase_Leap() { return giveUpChase.Use(); }
-    protected override bool TransitionCond_Chase_ShotsShotsShots() { return shotTimer.Use(); }
+    protected override bool TransitionCond_Chase_AimTowardsPlayer() { return shotTimer.Use(); }
     protected override bool TransitionCond_Chase_Charge() {
         return consecutiveCharges < chargesBeforeSweeping && towardsPlayer.magnitude < beginChargeRadius;
     }
@@ -86,7 +90,14 @@ public class MohawkBossImpl : MohawkBoss {
     protected override bool TransitionCond_Charge_Chase() { return ResetAnimFlag(); }
     protected override bool TransitionCond_Sweep_Chase() { return ResetAnimFlag(); }
 
-    protected override void TransitionNotify_Chase_Sweep() {
+    protected override bool TransitionCond_AimTowardsPlayer_ShotsShotsShots() {
+        Vector3 off = player.position - transform.position;
+        Vector3 fwd = transform.forward;
+
+        off.y = 0;
+        fwd.y = 0;
+
+        return Vector3.Angle(fwd, off) < 30;
     }
 
     bool ResetAnimFlag() {

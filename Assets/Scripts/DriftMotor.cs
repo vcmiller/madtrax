@@ -7,14 +7,17 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
 
     //The visible character
     public Transform aestheticTarget;
+    public Collider hitbox;
 
     public float turnSpeed = 15;
     public float maxTilt = 80f;
 
     public float dashCooldown = 1;
     public float dashDist = 4;
+    public float dashInvuln = 0.2f;
 
     private CooldownTimer dashTimer;
+    private ExpirationTimer dashInvulnTimer;
 
     public CharacterMotor motor { get; private set; }
     Brain brain;
@@ -32,6 +35,7 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         brain = GetComponent<Brain>();
         motor = GetComponent<CharacterMotor>();
         dashTimer = new CooldownTimer(dashCooldown);
+        dashInvulnTimer = new ExpirationTimer(dashInvuln);
     }
 
     // Update is called once per frame
@@ -82,8 +86,11 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
                 transform.position += aestheticTarget.forward * dashDist;
             }
 
+            dashInvulnTimer.Set();
             
         }
+
+        hitbox.enabled = dashInvulnTimer.expired;
 
         //Apply the rotation to the aesthetic target
         aestheticTarget.rotation = Quaternion.RotateTowards(aestheticTarget.rotation, targetRotation, f * Time.deltaTime);

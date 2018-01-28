@@ -148,14 +148,14 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
             chargeSpeed = Mathf.MoveTowards(chargeSpeed, (aimToPlayer.magnitude - 2) / chargeTime, mhbImpl.aimDistSpeed * Time.deltaTime);
 
             chargeWarn.transform.position = mhbImpl.transform.position;
-            chargeWarn.transform.localScale = new Vector3(1, chargeSpeed * chargeTime / 2 + 4, 1);
+            chargeWarn.transform.localScale = new Vector3(2, chargeSpeed * chargeTime / 2 + 4, 1);
             chargeWarn.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
         }
 
         if (!chargeTimer.expired) {
             chargeCol.SetActive(true);
             chargeCol.transform.position = chargeWarn.transform.position + chargeWarn.transform.up * (chargeSpeed * chargeTime + 4) * (1 - chargeTimer.remainingRatio);
-            chargeCol.transform.localScale = new Vector3(1, 2, 1);
+            chargeCol.transform.localScale = new Vector3(2, 2, 1);
             chargeCol.transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y, 0);
         } else {
             chargeCol.SetActive(false);
@@ -212,7 +212,9 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         if (isCharging == 1) {
             chargeTimer.Set();
             SetTracking(0);
+            Time.timeScale = 0.25f;
         } else {
+            Time.timeScale = 1.0f;
             motor.velocity = Vector3.zero;
         }
         this.isCharging = isCharging == 1;

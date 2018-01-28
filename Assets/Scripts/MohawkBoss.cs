@@ -3,7 +3,7 @@ using SBR;
 
 public abstract class MohawkBoss : SBR.StateMachine {
     public enum StateID {
-        Chase, Leap, ShotsShotsShots, Charge, Sweep
+        Chase, Leap, ShotsShotsShots, Charge, Sweep, AimTowardsPlayer
     }
 
     private class State {
@@ -28,7 +28,7 @@ public abstract class MohawkBoss : SBR.StateMachine {
     private State currentState;
 
     public MohawkBoss() {
-        states = new State[5];
+        states = new State[6];
 
         State stateChase = new State();
         stateChase.id = StateID.Chase;
@@ -61,6 +61,12 @@ public abstract class MohawkBoss : SBR.StateMachine {
         stateSweep.transitions = new Transition[1];
         states[4] = stateSweep;
 
+        State stateAimTowardsPlayer = new State();
+        stateAimTowardsPlayer.id = StateID.AimTowardsPlayer;
+        stateAimTowardsPlayer.during = State_AimTowardsPlayer;
+        stateAimTowardsPlayer.transitions = new Transition[1];
+        states[5] = stateAimTowardsPlayer;
+
         currentState = stateChase;
 
         Transition transitionChaseLeap = new Transition();
@@ -69,24 +75,24 @@ public abstract class MohawkBoss : SBR.StateMachine {
         transitionChaseLeap.cond = TransitionCond_Chase_Leap;
         stateChase.transitions[0] = transitionChaseLeap;
 
-        Transition transitionChaseShotsShotsShots = new Transition();
-        transitionChaseShotsShotsShots.from = stateChase;
-        transitionChaseShotsShotsShots.to = stateShotsShotsShots;
-        transitionChaseShotsShotsShots.cond = TransitionCond_Chase_ShotsShotsShots;
-        stateChase.transitions[1] = transitionChaseShotsShotsShots;
-
         Transition transitionChaseCharge = new Transition();
         transitionChaseCharge.from = stateChase;
         transitionChaseCharge.to = stateCharge;
         transitionChaseCharge.cond = TransitionCond_Chase_Charge;
-        stateChase.transitions[2] = transitionChaseCharge;
+        stateChase.transitions[1] = transitionChaseCharge;
 
         Transition transitionChaseSweep = new Transition();
         transitionChaseSweep.from = stateChase;
         transitionChaseSweep.to = stateSweep;
         transitionChaseSweep.cond = TransitionCond_Chase_Sweep;
         transitionChaseSweep.notify = TransitionNotify_Chase_Sweep;
-        stateChase.transitions[3] = transitionChaseSweep;
+        stateChase.transitions[2] = transitionChaseSweep;
+
+        Transition transitionChaseAimTowardsPlayer = new Transition();
+        transitionChaseAimTowardsPlayer.from = stateChase;
+        transitionChaseAimTowardsPlayer.to = stateAimTowardsPlayer;
+        transitionChaseAimTowardsPlayer.cond = TransitionCond_Chase_AimTowardsPlayer;
+        stateChase.transitions[3] = transitionChaseAimTowardsPlayer;
 
         Transition transitionLeapChase = new Transition();
         transitionLeapChase.from = stateLeap;
@@ -111,6 +117,12 @@ public abstract class MohawkBoss : SBR.StateMachine {
         transitionSweepChase.to = stateChase;
         transitionSweepChase.cond = TransitionCond_Sweep_Chase;
         stateSweep.transitions[0] = transitionSweepChase;
+
+        Transition transitionAimTowardsPlayerShotsShotsShots = new Transition();
+        transitionAimTowardsPlayerShotsShotsShots.from = stateAimTowardsPlayer;
+        transitionAimTowardsPlayerShotsShotsShots.to = stateShotsShotsShots;
+        transitionAimTowardsPlayerShotsShotsShots.cond = TransitionCond_AimTowardsPlayer_ShotsShotsShots;
+        stateAimTowardsPlayer.transitions[0] = transitionAimTowardsPlayerShotsShotsShots;
 
 
     }
@@ -188,15 +200,17 @@ public abstract class MohawkBoss : SBR.StateMachine {
     protected virtual void StateEnter_ShotsShotsShots() { }
     protected virtual void StateEnter_Charge() { }
     protected virtual void StateEnter_Sweep() { }
+    protected virtual void State_AimTowardsPlayer() { }
 
     protected virtual bool TransitionCond_Chase_Leap() { return false; }
-    protected virtual bool TransitionCond_Chase_ShotsShotsShots() { return false; }
     protected virtual bool TransitionCond_Chase_Charge() { return false; }
     protected virtual bool TransitionCond_Chase_Sweep() { return false; }
     protected virtual void TransitionNotify_Chase_Sweep() { }
+    protected virtual bool TransitionCond_Chase_AimTowardsPlayer() { return false; }
     protected virtual bool TransitionCond_Leap_Chase() { return false; }
     protected virtual bool TransitionCond_ShotsShotsShots_Chase() { return false; }
     protected virtual bool TransitionCond_Charge_Chase() { return false; }
     protected virtual bool TransitionCond_Sweep_Chase() { return false; }
+    protected virtual bool TransitionCond_AimTowardsPlayer_ShotsShotsShots() { return false; }
 
 }

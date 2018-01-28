@@ -11,7 +11,7 @@ public class EnemyWeapon : MonoBehaviour {
         Health bh;
 
         if (bh = other.GetComponentInParent<Health>()) {
-            bh.ApplyDamage(new Damage(1, transform.position, transform.forward));
+            bh.ApplyDamage(new Damage(damage, transform.position, transform.forward));
         }
     }
 }
