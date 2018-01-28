@@ -56,7 +56,25 @@ public class BossTrigger : MonoBehaviour {
                 {
                     FindObjectOfType<PlayerDamage>().killY = -550;
                     Destroy(GameObject.Find("MapGeometry"));
+                    Vector3 playerpos = FindObjectOfType<PlayerDamage>().transform.position;
+                    FindObjectOfType<Boat>().transform.position = new Vector3(playerpos.x, FindObjectOfType<Boat>().transform.position.y, playerpos.z);
                 }
+            }
+
+            if (Input.GetKey(KeyCode.Backspace))
+            {
+                foreach(MohawkBossDamage mbd in FindObjectsOfType<MohawkBossDamage>())
+                {
+                    Destroy(mbd.gameObject);
+                }
+                FindObjectOfType<PlayerDamage>().killY = -550;
+                GameObject go = GameObject.Find("MapGeometry");
+                if (go)
+                {
+                    Destroy(go);
+                }
+                Vector3 playerpos = FindObjectOfType<PlayerDamage>().transform.position;
+                FindObjectOfType<Boat>().transform.position = new Vector3(playerpos.x, FindObjectOfType<Boat>().transform.position.y, playerpos.z);
             }
 
             MusicPlayer.inst.ChangeToDefault();

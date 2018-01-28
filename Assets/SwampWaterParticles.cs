@@ -18,9 +18,5 @@ public class SwampWaterParticles : MonoBehaviour {
         if(!sys.isPlaying && drif.transform.position.y <= waterY)
             sys.Play();
 
-        if (sys.isPlaying)
-        {
-            sys.emissionRate = 100 * (drif.motor.velocity.magnitude / drif.motor.walkSpeed);
-        }
 	}
 }
