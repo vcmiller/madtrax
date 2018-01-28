@@ -145,9 +145,11 @@ GameObject:
   - component: {fileID: 114524758690833324}
   - component: {fileID: 114263081443931260}
   - component: {fileID: 114151285082339018}
+  - component: {fileID: 114539944518990208}
+  - component: {fileID: 114448128341807836}
   m_Layer: 2
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,7 +166,6 @@ GameObject:
   - component: {fileID: 23790682620768156}
   - component: {fileID: 54786239245118502}
   - component: {fileID: 65007478671944422}
-  - component: {fileID: 114448050431729024}
   m_Layer: 10
   m_Name: Francine
   m_TagString: Untagged
@@ -266,7 +267,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741316198176480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.59, y: -1.483, z: -12.04}
+  m_LocalPosition: {x: -4.59, y: 1.9, z: -12.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4906735206661616}
@@ -537,7 +538,7 @@ MonoBehaviour:
   maxSlope: 66.28
   maxStep: 0.2
   jumpSpeed: 4
-  gravityScale: 1
+  gravityScale: 5
   airControl: 0.5
 --- !u!114 &114248057500158236
 MonoBehaviour:
@@ -573,17 +574,18 @@ MonoBehaviour:
   gunTurnSpeed: 3
   gunTurnPermission: 100
   autoLockOn: 0
---- !u!114 &114448050431729024
+--- !u!114 &114448128341807836
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1768015663472996}
+  m_GameObject: {fileID: 1741316198176480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d1fbd144b2faa74d911acd3af579119, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b9cbaaa7e6302b4cbcf0021efdc7645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  redFlashTime: 0.1
 --- !u!114 &114524758690833324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,6 +600,19 @@ MonoBehaviour:
   aestheticTarget: {fileID: 4906735206661616}
   turnSpeed: 120
   maxTilt: 45
+--- !u!114 &114539944518990208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1741316198176480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7560336690c93094d97b459fc78d488d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  repeatZeroHealth: 0
 --- !u!114 &114593168540458760
 MonoBehaviour:
   m_ObjectHideFlags: 1

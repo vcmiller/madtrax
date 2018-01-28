@@ -5,6 +5,7 @@ using SBR;
 
 public class PlayerDamage : MonoBehaviour {
     public float redFlashTime = 0.2f;
+    public float killY = -10;
 
     private ExpirationTimer flashTimer;
 
@@ -14,6 +15,16 @@ public class PlayerDamage : MonoBehaviour {
 
     void DamageNotify(Damage dmg) {
         flashTimer.Set();
+    }
+
+    void ZeroHealth() {
+        GetComponent<Brain>().enabled = false;
+    }
+
+    private void Update() {
+        if (transform.position.y < killY) {
+            GetComponent<Health>().ApplyDamage(new Damage(10000, transform.position, Vector3.up));
+        }
     }
 
     private void OnGUI() {

@@ -9,6 +9,8 @@ public class Healthbar : MonoBehaviour {
 
     public Slider slider { get; private set; }
 
+    private bool isOn = true;
+
 	// Use this for initialization
 	void Start () {
         slider = GetComponent<Slider>();
@@ -16,6 +18,18 @@ public class Healthbar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        slider.value = health.health / health.maxHealth;
+        if ((health != null) != isOn) {
+            isOn = health;
+
+            foreach (var img in GetComponentsInChildren<Image>()) {
+                img.enabled = isOn;
+            }
+        }
+
+        if (isOn) {
+            slider.value = health.health / health.maxHealth;
+        }
 	}
+
+
 }

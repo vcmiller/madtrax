@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
 
     private Vector3 velocity;
     public GameObject impact;
+    public float damage = 1;
     public bool destroyOnImpact = true;
 
     private void FixedUpdate()
@@ -27,7 +28,7 @@ public class Bullet : MonoBehaviour {
             if (destroyOnImpact) {
                 Destroy(gameObject);
             }
-            bh.ApplyDamage(new Damage(1, transform.position, velocity));
+            bh.ApplyDamage(new Damage(damage, transform.position, velocity));
 
             if (impact) {
                 Instantiate(impact, transform.position, transform.rotation);

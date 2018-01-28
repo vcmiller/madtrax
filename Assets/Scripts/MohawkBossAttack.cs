@@ -20,6 +20,8 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
     private bool showWarn;
     private string curAttack;
 
+    public Transform warnings;
+
     public GameObject sweepWarn;
     public GameObject chargeWarn;
     public GameObject spinWarn;
@@ -50,6 +52,14 @@ public class MohawkBossAttack : BasicMotor<MohawkBossChannels> {
         damageTimer = new ExpirationTimer(1);
         shootCooldown = new CooldownTimer(1 / fireRate);
         shootTimer = new ExpirationTimer(1);
+
+        warnings.parent = null;
+    }
+
+    private void OnDestroy() {
+        if (warnings) {
+            Destroy(warnings.gameObject);
+        }
     }
 
     public override void TakeInput() {
