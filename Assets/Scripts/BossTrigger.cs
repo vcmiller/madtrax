@@ -5,6 +5,10 @@ using SBR;
 using System;
 
 public class BossTrigger : MonoBehaviour {
+
+    public static HashSet<BossTrigger> bosses = new HashSet<BossTrigger>();
+    public static int bossesToKill = 3;
+
     public Health bossHealth;
 
     public Healthbar bossHealthbar;
@@ -39,6 +43,15 @@ public class BossTrigger : MonoBehaviour {
 
     private void Update() {
         if (!bossHealth && wall) {
+            if (!bosses.Contains(this))
+            {
+                bosses.Add(this);
+                if (bosses.Count == bossesToKill)
+                {
+                    FindObjectOfType<PlayerDamage>().killY = -550;
+                    Destroy(GameObject.Find("MapGeometry"));
+                }
+            }
             wall.SetActive(false);
         }
     }
