@@ -5,6 +5,7 @@ public class MohawkBossImpl : MohawkBoss {
 
     public Transform player;
     public float beginChargeRadius;
+    public float sweepRadius = 3;
     public float turnSpeed = 180;
     public float trackSpeed = 360;
     public float aimDistSpeed = 5;
@@ -17,8 +18,11 @@ public class MohawkBossImpl : MohawkBoss {
 
     private MohawkBossChannels bossChannels;
 
-    public int chargesBeforeSweeping = 2;
+    public int chargesBeforeLeaping = 2;
+    public int spinsBeforeLeaping = 2;
+
     int consecutiveCharges = 0;
+    int consecutiveSpins = 0;
 
     public bool endAnimationFlag = false;
 
@@ -58,19 +62,23 @@ public class MohawkBossImpl : MohawkBoss {
     }
     protected override void StateEnter_Leap() {
         consecutiveCharges = 0;
+        consecutiveSpins = 0;
         bossChannels.doAttack = "Leap";
     }
     protected override void StateEnter_ShotsShotsShots() {
         shotTimer = new CooldownTimer(shotsShotsTime.Evaluate());
         consecutiveCharges = 0;
+        consecutiveSpins = 0;
         bossChannels.doAttack = "ShotsShots";
     }
     protected override void StateEnter_Charge() {
         consecutiveCharges++;
+        consecutiveSpins = 0;
         bossChannels.doAttack = "Charge";
     }
     protected override void StateEnter_Sweep() {
         consecutiveCharges = 0;
+        consecutiveSpins++;
         bossChannels.doAttack = "Spin";
     }
 
@@ -78,12 +86,12 @@ public class MohawkBossImpl : MohawkBoss {
         State_Chase();
     }
 
-    protected override bool TransitionCond_Chase_Leap() { return giveUpChase.Use(); }
+    protected override bool TransitionCond_Chase_Leap() { return giveUpChase.Use() || consecutiveCharges >= chargesBeforeLeaping || consecutiveSpins >= spinsBeforeLeaping; }
     protected override bool TransitionCond_Chase_AimTowardsPlayer() { return shotTimer.Use(); }
     protected override bool TransitionCond_Chase_Charge() {
-        return consecutiveCharges < chargesBeforeSweeping && towardsPlayer.magnitude < beginChargeRadius;
+        return consecutiveCharges < chargesBeforeLeaping && towardsPlayer.magnitude > beginChargeRadius;
     }
-    protected override bool TransitionCond_Chase_Sweep() { return consecutiveCharges >= chargesBeforeSweeping; }
+    protected override bool TransitionCond_Chase_Sweep() { return towardsPlayer.magnitude < sweepRadius && consecutiveSpins < spinsBeforeLeaping; }
 
     protected override bool TransitionCond_Leap_Chase() { return ResetAnimFlag(); }
     protected override bool TransitionCond_ShotsShotsShots_Chase() { return ResetAnimFlag(); }

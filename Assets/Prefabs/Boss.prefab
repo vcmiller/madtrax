@@ -1634,6 +1634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  force: 20
 --- !u!114 &114166334012238900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1687,6 +1688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  force: 20
 --- !u!114 &114708767161059872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1698,7 +1700,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6cb0e9fd9d0e6d4da6dca24f2d4a99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 5
+  force: 30
 --- !u!114 &114748109556043474
 MonoBehaviour:
   m_ObjectHideFlags: 1

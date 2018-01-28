@@ -55,13 +55,14 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         float inputDisparityAngle = Vector3.Cross(Quaternion.Euler(0, 0, 0) * will, aestheticTarget.forward).y;
 
         //The desired rotation in 2D
-        Quaternion targetRotation = (will.magnitude > 0.01f) ? Quaternion.LookRotation(will, Vector3.up) : aestheticTarget.rotation;
+        Quaternion targetTilt = aestheticTarget.rotation;
+        Quaternion targetRotation = (will.magnitude > 0.01f) ? Quaternion.LookRotation(will, Vector3.up) : transform.rotation;
 
         //X rotation determines wheelieing, pretty much
         float newX = (Input.GetButton("Fire2")) ? -45f * (motor.velocity.magnitude / motor.walkSpeed) : 0;
 
         //The desired rotation, now accounting for wheelies and tilt
-        targetRotation = Quaternion.Euler(newX, targetRotation.eulerAngles.y, (will.magnitude > 0 ? maxTilt * inputDisparityAngle : 0));
+        targetTilt = Quaternion.Euler(newX, 0, (will.magnitude > 0 ? maxTilt * inputDisparityAngle : 0));
 
         float f = turnSpeed;
 
@@ -87,9 +88,10 @@ public class DriftMotor : BasicMotor<FrancineChannels> {
         hitbox.enabled = dashInvulnTimer.expired;
 
         //Apply the rotation to the aesthetic target
-        aestheticTarget.rotation = Quaternion.RotateTowards(aestheticTarget.rotation, targetRotation, f * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, f * Time.deltaTime);
+        aestheticTarget.localRotation = Quaternion.RotateTowards(aestheticTarget.localRotation, targetTilt, f * Time.deltaTime);
 
         //Move forwards, always, but the previous code can change the rotation
-        channels.movement += aestheticTarget.forward * will.magnitude;
+        channels.movement += transform.forward * will.magnitude;
     }
 }

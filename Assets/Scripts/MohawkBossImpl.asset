@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Name: MohawkBossImpl
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  beginChargeRadius: 5
-  turnSpeed: 120
+  beginChargeRadius: 20
+  sweepRadius: 8
+  turnSpeed: 180
   trackSpeed: 270
   aimDistSpeed: 100
   giveUpChaseTime:
-    baseValue: 3.18
-    variance: 2
+    baseValue: 2
+    variance: 1
   shotsShotsTime:
     baseValue: 15
     variance: 5
   animator: {fileID: 0}
-  chargesBeforeSweeping: 2
+  chargesBeforeLeaping: 3
+  spinsBeforeLeaping: 2
   endAnimationFlag: 0
