@@ -7,7 +7,6 @@ using System;
 public class BossTrigger : MonoBehaviour {
 
     public static HashSet<BossTrigger> bosses = new HashSet<BossTrigger>();
-    public static int bossesToKill = 3;
 
     public Health bossHealth;
 
@@ -19,6 +18,7 @@ public class BossTrigger : MonoBehaviour {
     public AudioClip bossTrack;
 
     public Cinemachine.CinemachineTargetGroup group;
+ 
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player") && bossHealth) {
@@ -52,7 +52,7 @@ public class BossTrigger : MonoBehaviour {
             if (!bosses.Contains(this))
             {
                 bosses.Add(this);
-                if (bosses.Count == bossesToKill)
+                if (FindObjectsOfType<MohawkBossDamage>().Length == 0)
                 {
                     FindObjectOfType<PlayerDamage>().killY = -550;
                     Destroy(GameObject.Find("MapGeometry"));
